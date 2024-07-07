@@ -1,0 +1,16 @@
+{
+	"name": "@musakui/saaba",
+	"description": "micro server",
+	"licence": "MIT",
+	"version": "0.0.1",
+	"type": "module",
+	"files": [
+		"types",
+		"lib"
+	],
+	"main": "./lib/index.js",
+	"scripts": {
+	},
+	"devDependencies": {
+	}
+}
