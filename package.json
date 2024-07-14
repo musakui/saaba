@@ -17,6 +17,7 @@
 		}
 	},
 	"scripts": {
+		"gentypes": "dts-buddy -m @musakui/saaba:lib/public.d.ts"
 	},
 	"devDependencies": {
 	}
