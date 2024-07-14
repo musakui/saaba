@@ -9,6 +9,13 @@
 		"lib"
 	],
 	"main": "./lib/index.js",
+	"types": "./types/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./types/index.d.ts",
+			"import": "./lib/index.js"
+		}
+	},
 	"scripts": {
 	},
 	"devDependencies": {
