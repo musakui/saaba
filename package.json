@@ -1,7 +1,17 @@
 {
 	"name": "@musakui/saaba",
 	"description": "micro server",
+	"keywords": [
+		"http",
+		"router",
+		"web"
+	],
+	"author": "musakui",
 	"licence": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/musakui/saaba.git"
+	},
 	"version": "0.0.1",
 	"type": "module",
 	"files": [

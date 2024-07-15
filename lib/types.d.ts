@@ -30,6 +30,7 @@ export type RequestHandlerFn = (ctx: RequestContext) => Promise<unknown>
 export type RequestHandler = null | string | RequestHandlerFn
 
 export type Router = {
+	'': RequestHandler
 	[key: string]: Router | RequestHandler
 }
 
