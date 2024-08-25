@@ -1,9 +1,10 @@
-import type { IncomingMessage, ServerResponse } from 'node:http'
+import type {
+	ServerResponse,
+	IncomingMessage,
+	OutgoingHttpHeaders,
+} from 'node:http'
 
-export type RequestListener = (
-	req: IncomingMessage,
-	res: ServerResponse
-) => Promise<void>
+import type { HttpError } from './utils'
 
 export type HttpMethods =
 	| 'GET'
@@ -14,50 +15,43 @@ export type HttpMethods =
 	| 'DELETE'
 	| 'OPTIONS'
 
-export type RouteParams = Record<string, string | undefined>
+export type RequestContext<
+	ReqType extends IncomingMessage = IncomingMessage,
+	ResType extends ServerResponse<ReqType> = ServerResponse<ReqType>
+> = {
+	/** HTTP method */
+	readonly method?: string
 
-export type RequestContext = {
-	method?: HttpMethods
-	req: IncomingMessage
-	res: ServerResponse
-	path: string
-	query: URLSearchParams
-	params: RouteParams
+	/** raw Request */
+	readonly req: ReqType
+
+	/** raw Response */
+	readonly res: ResType
+
+	/** request path */
+	readonly path: string
+
+	/** request query params */
+	readonly query: URLSearchParams
 }
 
-export type RequestHandlerFn = (ctx: RequestContext) => Promise<unknown>
-
-export type RequestHandler = null | string | RequestHandlerFn
-
-export type Router = {
-	[key: string]: Router | RequestHandler
-}
-
-export type PathMatch = {
-	/** literal? */
-	l: boolean
-	/** match str */
-	m: string
-	/** handler */
-	h?: RequestHandler
-}
-
-export type RouterWalker = (
-	router: Router,
-	parts: PathMatch[]
-) => Generator<PathMatch[], void>
-
-export type RouteMatcher = [matcher: RegExp, handler: RequestHandler]
-
-export type ListenerOptions = {
-	router: Router
-
-	/** named handlers */
-	handlers?: Record<string, RequestHandlerFn>
-
-	/** return JSON API errors */
-	jsonError?: boolean
+export type ListenerOptions<
+	ReqType extends IncomingMessage,
+	ResType extends ServerResponse<ReqType>
+> = {
+	/** send 204 No Content for favicon.ico */
+	emptyFavicon?: boolean
 
 	/** CORS headers */
-	cors?: boolean | Record<string, string | number>
+	cors?: boolean | OutgoingHttpHeaders
+
+	/** request handler */
+	handleRequest: (ctx: RequestContext<ReqType, ResType>) => Promise<unknown>
+
+	/**
+	 * error handler
+	 *
+	 * default: return JSON error
+	 */
+	handleError?: (err: HttpError | Error, ctx: RequestContext<ReqType, ResType>) => void
 }
