@@ -3,6 +3,7 @@
 		"strict": true,
 		"noEmit": true,
 		"allowJs": true,
+		"checkJs": true,
 		"target": "ESNext",
 		"module": "ESNext",
 		"skipLibCheck": true,
